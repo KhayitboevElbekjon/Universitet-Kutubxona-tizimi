@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>record</title>
+    <style>
+    .tab1 {
+            tab-size: 2;
+        }
+    body {background-color: MistyRose;}
+         .aa {
+            width: 150px;
+            height: 35px;
+            background-color: #f44336;
+            transition: 0.2s;
+            border-radius: 12px;
+        }
+            .aa:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+        .bb{
+            width: 100px;
+            height: 48px;
+            background-color: #008CBA;
+            border-radius: 12px;
+            transition: 0.2s;
+            border: 2px solid  	#0000FF;
+        }
+        .bb:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                  }
+
+        .cc{
+            width: 250px;
+            height: 35px;
+            background-color: #e7e7e7; color: black;
+            border: 2px solid #4CAF50;
+        }
+        .cc:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+        .input{
+            width: 200px;
+            height: 35px;
+            background-color: #e7e7e7; color: black;
+            border: 2px solid #4CAF50;
+        }
+        .input:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+        .buttun{
+            width: 80px;
+            height: 80px;
+            background-color: #FFDEAD;
+            border-radius: 50%;
+            transition: 0.2s;
+           border: 2px solid #8B4513;
+        }
+         .buttun:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+        .chek_box{
+            width: 35px;
+            height: 35px;
+            background-color: #008CBA;
+            border-radius: 12px;
+            transition: 0.2s;
+            border: 2px solid  	#0000FF;
+        }
+        .chek_box:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                  }
+
+
+    </style>
+</head>
+<body>
+<br>
+<form method="get">
+    <input type="text" name="record" placeholder="Talabaning ismini kiriting!" class="cc">
+    <button type="submit" class="bb">Qidirish</button>
+<br>
+<form method="post" action="/record/"> {% csrf_token%}
+{{forma}}
+
+<!--    <select name="rec_talaba" class="input">-->
+<!--        {% for i in data_talaba %}-->
+<!--        <option value="{{i.id}}">{{i.ism}}</option>-->
+<!--        {%endfor%}-->
+<!--    </select>-->
+<!--    <select name="rec_kitob" class="input">-->
+<!--        {% for i in data_kitob %}-->
+<!--        <option value="{{i.id}}">{{i.nom}}</option>-->
+<!--        {%endfor%}-->
+<!--    </select>-->
+<!--    <select name="rec_admin" class="input">-->
+<!--        {% for i in data_admin %}-->
+<!--        <option value="{{i.id}}">{{i.ism}}</option>-->
+<!--        {%endfor%}-->
+<!--    </select>-->
+
+<!--    <input type="date" name="olingan_sana" placeholder="Olingan sanani kiriting!" class="input">-->
+<!--    <input type="date" name="qaytarilgan_sana" placeholder="Qaytarish sanani kiriting!" class="input">-->
+
+    <button type="submit" class="buttun">Qo'shish</button>
+</form>
+<hr>
+    <form class="tab1">
+{% for i in record %}
+    <h5>Talabaning  ismi: {{i.talaba_fk.ism}}<b> <a href="/rec_edit/{{i.id}}">✏️</a>
+<br>
+    Olgan kitob nomi: {{i.kitob_fk.nom}}
+    <br>
+    Admin ismi: {{i.admin_fk.ism}}
+    <br>
+    Kitobni olgan sanasi: {{i.olingan_sana}}
+    <br>
+    Kitobni qaytarish sanasi: {{i.qaytarish_sana}}
+    <br>
+    {% if i.qaytarildi %}
+    Kitob qaytarildi
+    {%else%}
+    Kitob qaytarilmadi
+</h5>
+{%endif%}
+    </form>
+<a href="/record_del/{{i.id}}"><button class="aa">O'chirish</button></a>
+<h3>___________________________________________</h3>
+{%endfor%}
+</body>
+</html>

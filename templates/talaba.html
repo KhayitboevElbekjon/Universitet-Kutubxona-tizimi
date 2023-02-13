@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>talaba</title>
+
+</head>
+<body>
+<h1 style="color:blue;">{{talaba.ism}} haqidagi ma'lumotlar</h1>
+<h2>id:{{talaba.id}}</h2>
+<h2>kitoblar soni:{{talaba.kitoblar_soni}} ta</h2>
+
+{%if talaba.bitiruvchi%}
+<h2>{{talaba.ism}} Bitiruvchi</h2>
+
+{%elif talaba.bitiruvchi == False%}
+<h2>{{talaba.ism}} Bitiruvchi emas</h2>
+{%endif%}
+<a href="/talabalar"><button><h3>Barcha talabalar <br>haqidagi menyuga qaytish </h3></button></a>
+<br>
+<hr>
+<h3 style="color:orange;">{{talaba.ism}} haqidagi ma'lumotlarni o'zgartirish</h3>
+
+<form method="post">{%csrf_token%}
+    <label>Ism</label>
+<input type="text" name="ism" value="{{talaba.ism}}">
+        <label>Kurs</label>
+<input type="number" name="kurs" value="{{talaba.kurs}}">
+        <label>Kitoblar soni</label>
+<input type="number" name="kitoblar_soni" value="{{talaba.kitoblar_soni}}">
+
+        <label>Bitiruvchi</label>
+    {% if talaba.bitiruvchi%}
+    <input type="checkbox" name="b" checked>
+    {% else %}
+        <input type="checkbox" name="b" >
+    {% endif%}
+
+    <button type="submit">O'zgartirish</button>
+
+</form>
+</body>
+</html>

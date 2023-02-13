@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tirik mualliflar</title>
+</head>
+<body>
+<h1> <a style="color:teal;">Tirik mualliflar ro'yxati</a> </h1>
+<hr>
+<h2>
+{% for i in tirik %}
+{% if i.tirik %}
+    {{i.ism}}
+    <br>
+    {%endif%}
+    {%endfor%}
+</h2>
+</body>
+</html>

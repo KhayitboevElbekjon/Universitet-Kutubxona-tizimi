@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>More record</title>
+</head>
+<body>
+<h3>Talabaning ismi: {{n.talaba_fk.ism}}
+<br>
+    {{n.talaba_fk.ism}} olgan kitob nomi {{n.kitob_fk.nom}}
+    <br>
+    Admin ismi: {{n.admin_fk.ism}}
+    <br>
+    Olingan sana: {{n.olingan_sana}}
+    <br>
+    Qaytarish sanasi: {{n.qaytarish_sana}}
+    <br>
+    {% if n.qaytarildi %}
+    Kitob qaytarilmagan!
+    {%else%}
+    Kitob qaytarilgan!
+</h3>
+{%endif%}
+</body>
+</html>

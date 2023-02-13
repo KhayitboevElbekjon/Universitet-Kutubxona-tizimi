@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin pannel edit</title>
+</head>
+<body>
+
+<h3>Admin ismi: {{admin.ism}} <br> Ish boshlanish vaqti: {{admin.ish_vaqti}}<br>
+_____________________________________________</h3>
+<form method="post">{% csrf_token %}
+    <label>Ism:</label>
+    <input type="text" name="ism" value="{{admin.ism}}">
+        <label>Ish boshlanish vaqti:</label>
+        <input  name="vaqt" value="{{admin.ish_vaqti}}">
+    <button type="submit">Saqlash</button>
+</form>
+
+</body>
+</html>

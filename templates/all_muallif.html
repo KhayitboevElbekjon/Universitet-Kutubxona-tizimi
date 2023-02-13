@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>hamma muallif</title>
+        <style>
+          body {background-color: PapayaWhip;}
+        .aa {
+            width: 150px;
+            height: 35px;
+            background-color: #f44336;
+            transition: 0.2s;
+            border-radius: 12px;
+        }
+            .aa:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+        .bb{
+            width: 100px;
+            height: 55px;
+            background-color: #008CBA;
+            border-radius: 12px;
+            transition: 0.2s;
+            border: 2px solid  	#0000FF;
+        }
+         .bb:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+        .cc{
+            width: 300px;
+            height: 35px;
+            background-color: #e7e7e7; color: black;
+            border: 2px solid #4CAF50;
+        }
+        .cc:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+
+        .buttun{
+            width: 80px;
+            height: 80px;
+            background-color: #FFDEAD;
+            border-radius: 50%;
+            transition: 0.2s;
+           border: 2px solid #8B4513;
+        }
+         .buttun:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+        .sahifa {
+            width: 150px;
+            height: 35px;
+            background-color: #7FFFD4;
+            transition: 0.2s;
+            border-radius: 12px;
+        }
+         h1 {
+          color: Orange;
+          text-shadow: 1.5px 1.5px 2px black, 0 0 25px MidnightBlue, 0 0 5px red;}
+            .sahifa:hover {
+          box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+    </style>
+</head>
+<body>
+<center><h1 ><a>Barcha mualliflar</a></h1>
+  <a href="http://127.0.0.1:8000/"><button class="sahifa">Bosh sahifaga qaytish </button></a>
+    <hr>
+    <form method="get">
+        <input type="text" name="qidirish" placeholder="Muallifning ismini kiriting!" class="cc">
+        <button type="submit" class="bb"><em>Qidirish</em></button>
+
+    </form>
+
+<br>
+
+
+<form method="post" action="/all_mualliflar/"> {% csrf_token%}
+{{forma}}
+    <button type="submit" class="buttun">Qo'shish</button>
+</form>
+
+
+
+<br>
+
+<hr>
+
+{% for i in muallif %}
+<h2> <a href="/muallif/{{i.id}}" >{{i.ism}}</a> <a href="/muallif_edit/{{i.id}}">🖊️</a> </h2>
+
+<a href="/muallif_uchir/{{i.id}}/"><button class="aa">O'chirish</button></a>
+
+{% endfor %}
+
+</center>
+</body>
+</html>

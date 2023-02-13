@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Muallif edit</title>
+</head>
+<body>
+<h2>Tahrirlanuvchi muallif! </br>____________________________ </h2>
+<form method="post">{%csrf_token%}
+    <label>Ism:</label>
+    <input type="text" name="ism" value="{{data.ism}}">
+    <label>Tirik:</label>
+    {% if data.tirik %}
+    <input type="checkbox" name="tirik" checked>
+    {% else %}
+        <input type="checkbox" name="tirik">
+    {%endif%}
+    <br><br>
+    <label>Kitoblar soni:</label>
+    <input type="number" name="soni" value="{{data.kitoblar_soni}}">
+        <br><br>
+    <label>Jinsi:</label>
+    <input type="text" name="jinsi" value="{{data.jinsi}}">
+            <br><br>
+    <label>Yoshi:</label>
+    <input type="number" name="yosh" value="{{data.yosh}}">
+    <button type="submit">Saqlash ✔</button>
+</form>
+</body>
+</html>

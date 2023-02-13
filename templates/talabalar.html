@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>talabalar</title>
+    <style>
+
+        .aa {
+            width: 320px;
+        }
+        .inp{
+        width: 320px;
+        height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+<center>
+
+<h1 style="background-color:powderblue;">* Barcha talabalar *</h1>
+  </center>
+
+<form action="/talabalar/" method="post" > {% csrf_token%}
+{{forma}}
+    <button type="submit">Qo'shish</button>
+
+
+</form>
+<hr>
+{% for i in talabalar%}
+<h2>{{i.id}} <a href="/talaba/{{i.id}}/"> {{i.ism}}</a> </h2>
+
+<a href="/talaba_uchir/{{i.id}}/"><button class="aa">O'chirish</button></a>
+
+{%endfor%}
+<br>
+
+</body>
+</html>

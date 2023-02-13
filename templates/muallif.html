@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Muallif</title>
+</head>
+<body>
+<center><h2> <a style="color:blue;"> {{muallif.ism}} haqidagi barcha ma'lumotlar! </a> </h2></center>
+<hr>
+{% if muallif.tirik %}
+<h3>{{muallif.ism}} hozirda tirik,va kitoblar soni {{muallif.kitoblar_soni}} ta
+jinsi {{muallif.jinsi}},yoshi esa {{muallif.yosh}} da</h3>
+{% else %}
+<h3>{{muallif.ism}} hozirda vafot etgan, va kitoblar soni {{muallif.kitoblar_soni}} ta
+jinsi {{muallif.jinsi}}</h3>
+{%endif%}
+
+<button type="button"><em><a href="/all_mualliflar"><h3>Barcha mualliflar <br>haqidagi menyuga qaytish </h3></a></em></button>
+
+</body>
+</html>

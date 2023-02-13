@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitoblar</title>
+  <style>
+
+        .aa {
+            width: 300px;
+            height: 35px;
+        }
+        .bb{
+            width: 100px;
+            height: 55px;
+            background-color: #008CBA;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+         .bb:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+        .cc{
+            width: 300px;
+            height: 35px;
+            background-color: #e7e7e7; color: black;
+        }
+  </style>
+</head>
+<body>
+<br>
+<form method="get">
+  <input type="text" name="nom" class="aa" placeholder="Kitob nomini kiriting!">
+    <button type="submit" class="bb">Qidirish</button>
+</form>
+<br>
+<form method="post" action="/kitoblar/">{% csrf_token%}
+    {{forma}}
+<!--    <input type="text" name="nom" placeholder="Kitob nomini kiriting!" class="cc">-->
+<!--    <input type="number" name="sahifa" placeholder="Kitob sahifa sonini kiriting!" class="cc">-->
+<!--     <input type="text" name="janr" placeholder="Kitobning janirini kiriting!" class="cc" >-->
+
+<!--    <select name="muallif">-->
+<!--        {% for i in muallif %}-->
+<!--        <option value="{{i.id}}" >{{i.ism}}</option>-->
+<!--        {%endfor%}-->
+<!--    </select>-->
+
+    <button type="submit" class="bb">Qo'shish</button>
+</form>
+
+
+
+
+
+<hr>
+<h1><mark>Barcha kitoblar nomi</mark></h1>
+{% for i in kitoblar%}
+<a href="/one_kitob"><h2><i>Kitob nomi:{{i.nom}}</i></h2></a>
+{%endfor%}
+</body>
+</html>

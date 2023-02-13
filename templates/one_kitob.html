@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>One record</title>
+    <style>
+        .buttun{
+        witdh:80px;
+        height:35px;
+        }
+    </style>
+</head>
+<body>
+<h2><em>Barcha recordlar!</em></h2>
+<hr>
+{% for i in kk%}
+<h3> <a href="/kitoblar/{{i.id}}"> {{i.id}}.{{i.nom}} ga tegishli malumotlar!</a></h3>
+<!--<a href="/record_delete/{{i.id}}/"><button class="buttun">Uchirish</button></a>-->
+{%endfor%}
+</body>
+</html>

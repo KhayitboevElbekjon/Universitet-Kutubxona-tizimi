@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Record edit</title>
+</head>
+<body>
+<h3>{{data.talaba_fk.ism}}ga tegishli record tahrirlanmoqda!<br>_____________________________________________________</h3>
+<form method="post">{%csrf_token%}
+    <label>Qaytarilgan sana:</label>
+
+    <input type="date" name="sana" value="{{data.qaytarish_sana}}">
+    <br><br>
+
+    <label>Qaytarildi:</label>
+    {% if data.qaytarildi %}
+    <input type="checkbox" name="ok" checked>
+    {% else %}
+        <input type="checkbox" name="ok">
+    {%endif%}
+
+    <button type="submit">Saqlash ✔</button>
+</form>
+</body>
+</html>
