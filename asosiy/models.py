@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 class Muallif(models.Model):
     ism=models.CharField(max_length=25)
     tirik=models.BooleanField()
@@ -24,7 +25,10 @@ class Talaba(models.Model):
         return f'{self.ism}'
     class Meta:
         ordering=('ism',) # tartiblash  uchun
+
+
 class Admin(models.Model):
+    user_fk =models.OneToOneField(User, on_delete=models.SET_NULL,null=True)
     ism=models.CharField(max_length=25)
     ish_vaqti=models.TimeField(null=True,blank=True)
     def __str__(self):
@@ -37,6 +41,7 @@ class Record(models.Model):
     olingan_sana=models.DateTimeField()
     qaytarish_sana=models.DateTimeField()
     qaytarildi=models.BooleanField()
+
 
 
 

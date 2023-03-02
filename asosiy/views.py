@@ -1,6 +1,10 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
+from django.contrib.auth import authenticate,login,logout
+from django.views import View
+
+# from django.contrib.auth.models import User
 
 from .forms import *  # djangodagi Forma uchun
 
@@ -12,13 +16,14 @@ def salom_ber(request):
     return render(request,'salom.html',data)
 
 def bosh_sahifa(request):
-    return render(request,'bosh_sahifa.html')
+   return render(request,'bosh_sahifa.html')
 
 # Bazaga ma'lumot qo'shish uchun
 
 # djangoda FORMA uchun -->
-def hamma_talabalar(request):
-    if request.method=='POST':
+
+class TalabalarView(View):
+    def post(self,request):
         forma=TalabaForm(request.POST)
         if forma.is_valid():
             Talaba.objects.create(
@@ -28,11 +33,29 @@ def hamma_talabalar(request):
                 kitoblar_soni=forma.cleaned_data.get('books')
             )
         return redirect('/talabalar')
+    def get(self,request):
+        if request.user.is_authenticated:
+            data={'talabalar':Talaba.objects.all(),
+                  'forma':TalabaForm}
+            return render(request,'talabalar.html',data)
+        return redirect('/')
 
-
-    data={'talabalar':Talaba.objects.all(),
-          'forma':TalabaForm}
-    return render(request,'talabalar.html',data)
+# def hamma_talabalar(request):
+#     if request.method=='POST':
+#         forma=TalabaForm(request.POST)
+#         if forma.is_valid():
+#             Talaba.objects.create(
+#                 ism=forma.cleaned_data.get('name'),
+#                 kurs=forma.cleaned_data.get('course'),
+#                 bitiruvchi=forma.cleaned_data.get('graduate'),
+#                 kitoblar_soni=forma.cleaned_data.get('books')
+#             )
+#         return redirect('/talabalar')
+#
+#
+#     data={'talabalar':Talaba.objects.all(),
+#           'forma':TalabaForm}
+#     return render(request,'talabalar.html',data)
 
 
 # Update uchun
@@ -80,6 +103,7 @@ def all_muallif(request):
 
 
 def kitoblar(request):
+
     if request.method=='POST':
         forma=KitobForm(request.POST)
         if forma.is_valid():
@@ -108,33 +132,58 @@ def one_kitob(request):
     return render(request,'one_kitob.html',data)
 
 
-def record(request):
-    if request.method=='POST':
-        forma=RecordForm(request.POST)
-        if forma.is_valid():
-            forma.save()
+class Record_view(View):
+    def post(self,request):
+        if request.user.is_authenticated:
+            Record.objects.create(
+                talaba_fk=Talaba.objects.get(id=request.POST.get('rec_talaba')),
+                kitob_fk=Kitob.objects.get(id=request.POST.get('rec_kitob')),
+                admin_fk=Admin.objects.get(id=request.POST.get('rec_admin')),
+                olingan_sana=request.POST.get('olingan_sana'),
+                qaytarish_sana=request.POST.get('qaytarilgan_sana'),
+                qaytarildi=True
+            )
+            return redirect('/record')
+        return redirect('/')
+    def get(self,request):
+        if request.user.is_authenticated:
+            ism=request.GET.get('record')
+            if ism is None or ism=='':
+                 rec=Record.objects.all()
+            else:
+                rec=Record.objects.filter(talaba_fk__ism__contains=ism)
+            mal={'record':rec,
+                 'data_talaba':Talaba.objects.all(),
+                 'data_kitob':Kitob.objects.all(),
+                 'data_admin':Admin.objects.all(),
+                 'forma':RecordForm}
+            return render(request,'record.html',mal)
+        return redirect('/')
 
-        # Record.objects.create(
-        #     talaba_fk=Talaba.objects.get(id=request.POST.get('rec_talaba')),
-        #     kitob_fk=Kitob.objects.get(id=request.POST.get('rec_kitob')),
-        #     admin_fk=Admin.objects.get(id=request.POST.get('rec_admin')),
-        #     olingan_sana=request.POST.get('olingan_sana'),
-        #     qaytarish_sana=request.POST.get('qaytarilgan_sana'),
-        #     qaytarildi=False
-        # )
-        return redirect('/record')
-    ism=request.GET.get('record')
-    if ism is None or ism=='':
-         rec=Record.objects.all()
-    else:
-        rec=Record.objects.filter(talaba_fk__ism__contains=ism)
-    mal={'record':rec,
-         'data_talaba':Talaba.objects.all(),
-         'data_kitob':Kitob.objects.all(),
-         'data_admin':Admin.objects.all(),
-         'forma':RecordForm}
-    return render(request,'record.html',mal)
-
+# def record(request):
+#     if request.user.is_authenticated:
+#         if request.method=='POST':
+#             forma=RecordForm(request.POST)
+#             if forma.is_valid():
+#                 forma.save()
+#             data={
+#                 'data':Record.objects.filter(foydalanuvchi=request.user)
+#             }
+#             return render(request,'record.html',data)
+#
+#
+#         ism=request.GET.get('record')
+#         if ism is None or ism=='':
+#              rec=Record.objects.all()
+#         else:
+#             rec=Record.objects.filter(talaba_fk__ism__contains=ism)
+#         mal={'record':rec,
+#              'data_talaba':Talaba.objects.all(),
+#              'data_kitob':Kitob.objects.all(),
+#              'data_admin':Admin.objects.all(),
+#              'forma':RecordForm}
+#         return render(request,'record.html',mal)
+#     return redirect('record/')
 def admin_pannel(request):
     if request.method=='POST':
         forma=AdminForm(request.POST)
@@ -206,8 +255,11 @@ def record_delete(request,son):
     return redirect('/one_record')
 
 def record_del(request,son):
-    Record.objects.get(id=son).delete()
-    return redirect('/record')
+    # Record.objects.get(id=son).delete()
+    if request.user.is_authenticated :
+        Record.objects.get(id=son).delete()
+        return redirect('/record')
+    return redirect('/')
 def admin_del(request,son):
     Admin.objects.get(id=son).delete()
     return redirect('/admin_p')
@@ -255,3 +307,37 @@ def record_edit(request,son):
         return redirect('/record')
     data={'data':Record.objects.get(id=son)}
     return render(request,'rec_edit.html',data)
+
+
+def user_login(request):
+    usernam=request.POST.get('ll')
+    passwor=request.POST.get('pp')
+    user=authenticate(request,username=usernam,password=passwor)
+    if user is not None:
+        login(request,user)
+        return redirect('bosh_sahifa/')
+
+    return render(request,'login.html')
+
+def logaut_view(request):
+    logout(request)
+    return redirect('/')
+
+def register_view(request):
+    username=request.POST.get('l')
+    password=request.POST.get('p')
+    passwordN=request.POST.get('cp')
+    ism=request.POST.get('ism')
+    vaqt=request.POST.get('vaqt')
+    if request.method=='POST' and passwordN==password:
+        User.objects.create_user(
+            username=username,
+            password=passwordN
+        )
+        Admin.objects.create(
+            ism=ism,
+            ish_vaqti=vaqt
+        )
+        return redirect('/')
+    return render(request,'register.html')
+
